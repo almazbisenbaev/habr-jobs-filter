@@ -1,8 +1,9 @@
 // Toggle functionality
 const shouldHideCrowdedJobs = true;
+const shouldHighlightEmptyJobs = true;
 
-const bidsToHighlightLimit = 3; // Jobs with <5 bids will be highlighted
 const bidsToHideLimit = 5; // Jobs with >5 bids will be hidden
+const bidsToHighlightLimit = 3; // Jobs with <5 bids will be highlighted
 
 
 
@@ -59,16 +60,36 @@ const hideCrowded = function(){
         var bidsElement = item.querySelector('.params__count');
 
         if(bidsElement){
-
             var mainParent = getClosestParent(item, '.content-list__item');
-
             let textValue = bidsElement.textContent;
             let bidsNumber = extractNumFromString(textValue);
-    
             if(bidsNumber >= bidsToHideLimit){
-                mainParent.style.opacity = '0.2';
+                mainParent.style.opacity = '0.15';
             }
+        }
+        
+    });
 
+};
+
+
+
+// Highlight jobs with too a few bids
+const highlightEmpty = function(){
+
+    let allBidsWrappers = document.querySelectorAll('.params__responses');
+
+    allBidsWrappers.forEach(function(item){
+
+        var bidsElement = item.querySelector('.params__count');
+
+        if(bidsElement){
+            var mainParent = getClosestParent(item, '.content-list__item');
+            let textValue = bidsElement.textContent;
+            let bidsNumber = extractNumFromString(textValue);
+            if(bidsNumber <= bidsToHighlightLimit){
+                mainParent.style.boxShadow = '0 0 15px rgba(255,150,20, 0.35)';
+            }
         }
         
     });
@@ -92,7 +113,14 @@ window.onload = function() {
         if(shouldHideCrowdedJobs){
             hideCrowded();
         }
-    }, 1000);
+    }, 500);
+
+    // Hides all crowded jobs on page load
+    setTimeout(function(){
+        if(shouldHighlightEmptyJobs){
+            highlightEmpty();
+        }
+    }, 500);
 
 
 }
