@@ -1,0 +1,23 @@
+{
+  "name": "Habr filters",
+  "version": "1.0",
+  "description": "",
+
+  "permissions": ["activeTab", "declarativeContent", "storage"],
+
+  "icons": {
+    "16": "images/pepe-16.png",
+    "32": "images/pepe-32.png",
+    "48": "images/pepe-48.png",
+    "128": "images/pepe-128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://freelance.habr.com/*"],
+      "js": ["script.js"]
+    }
+  ],
+
+  "manifest_version": 2
+}
